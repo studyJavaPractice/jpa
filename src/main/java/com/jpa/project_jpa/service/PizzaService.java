@@ -1,0 +1,27 @@
+package com.jpa.project_jpa.service;
+
+import org.springframework.stereotype.Service;
+import com.jpa.project_jpa.persitence.entity.PizzaEntity;
+import com.jpa.project_jpa.persitence.repository.PizzaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+import java.util.List;
+
+@Service
+public class PizzaService {
+    private final PizzaRepository pizzaRepository;
+
+    @Autowired
+    public PizzaService(PizzaRepository pizzaRepository) {
+        this.pizzaRepository = pizzaRepository;
+    }
+
+    public List<PizzaEntity> getAll() {
+        return this.pizzaRepository.findAll();
+    }
+
+    public PizzaEntity get(int idPizza) {
+        return this.pizzaRepository.findById(idPizza).orElse(null);
+    }
+}

@@ -1,5 +1,8 @@
 package com.jpa.project_jpa.persitence.entity;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,8 +13,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "pizza_order")
@@ -36,10 +37,11 @@ public class OrderEntity {
     @Column(name = "additional_notes", length = 200)
     private String additionalNotes;
 
-    //@OneToOne
-    //@JoinColumn(name = "id_customer", referencedColumnName = "id_customer", insertable = false, updatable = false)
-    //private CustomerEntity customer;
+    @OneToOne
+    @JoinColumn(name = "id_customer", referencedColumnName = "id_customer", insertable = false, updatable = false)
+    private CustomerEntity customer;
 
-    //@OneToMany(mappedBy = "order")
-   //private List<OrderItemEntity> items;
+    @OneToMany
+    @JoinColumn(name = "id_order", referencedColumnName = "id_order", insertable = false, updatable = false)
+    private List<OrderItemEntity> items;
 }
