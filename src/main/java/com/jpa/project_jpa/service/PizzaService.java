@@ -2,6 +2,10 @@ package com.jpa.project_jpa.service;
 
 import com.jpa.project_jpa.persitence.repository.PizzaPagSortRepository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 // import org.hibernate.query.Page;
 // import org.springframework.data.domain.Page;
 // import org.springframework.boot.data.autoconfigure.web.DataWebProperties.Pageable;
@@ -16,6 +20,7 @@ import java.util.List;
 
 @Service
 public class PizzaService {
+    private final PizzaPagSortRepository pizzaPagSortRepository;
     // private final PizzaPagSortRepository pizzaPagSortRepository;
     private final PizzaRepository pizzaRepository;
 
@@ -23,20 +28,21 @@ public class PizzaService {
     public PizzaService(PizzaRepository pizzaRepository, PizzaPagSortRepository pizzaPagSortRepository) {
         this.pizzaRepository = pizzaRepository;
         // this.pizzaPagSortRepository = pizzaPagSortRepository;
+        this.pizzaPagSortRepository = pizzaPagSortRepository;
     }
 
-    public List<PizzaEntity> getAll() {
+    public List<PizzaEntity> getAll() { 
         return this.pizzaRepository.findAll();
     }
 
-    // public Page<PizzaEntity> getAvailable(int page, int elements, String sortBy, String sortDirection) {
-    //     System.out.println(this.pizzaRepository.countByVeganTrue());
+    public Page<PizzaEntity> getAvailable(int page, int elements, String sortBy, String sortDirection) {
+        System.out.println(this.pizzaRepository.countByVeganTrue());
 
-    //     Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
-    //     Pageable pageRequest = PageRequest.of(page, elements, sort);
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageRequest = PageRequest.of(page, elements, sort);
 
-    //     return this.pizzaPagSortRepository.findByAvailableTrue(pageRequest);
-    // }
+        return this.pizzaPagSortRepository.findByAvailableTrue(pageRequest);
+    }
 
     public PizzaEntity getByName(String name) {
         return this.pizzaRepository.findFirstByAvailableTrueAndNameIgnoreCase(name)

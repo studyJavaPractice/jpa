@@ -1,5 +1,6 @@
 package com.jpa.project_jpa.controller;
 
+import org.springframework.data.domain.Page;
 // import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 // import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,13 +40,13 @@ public class PizzaController {
         return ResponseEntity.ok(this.pizzaService.get(idPizza));
     }
 
-    // @GetMapping("/available")
-    // public ResponseEntity<Page<PizzaEntity>> getAvailable(@RequestParam(defaultValue = "0") int page,
-    //         @RequestParam(defaultValue = "8") int elements,
-    //         @RequestParam(defaultValue = "price") String sortBy,
-    //         @RequestParam(defaultValue = "ASC") String sortDirection) {
-    //     return ResponseEntity.ok(this.pizzaService.getAvailable(page, elements, sortBy, sortDirection));
-    // }
+    @GetMapping("/available")
+    public ResponseEntity<Page<PizzaEntity>> getAvailable(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int elements,
+            @RequestParam(defaultValue = "price") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection) {
+        return ResponseEntity.ok(this.pizzaService.getAvailable(page, elements, sortBy, sortDirection));
+    }
 
     @GetMapping("/name/{name}")
     public ResponseEntity<PizzaEntity> getByName(@PathVariable String name) {
