@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import com.jpa.project_jpa.persitence.entity.PizzaEntity;
 import com.jpa.project_jpa.persitence.repository.PizzaRepository;
 //import org.springframework.beans.factory.annotation.Autowired;
+import com.jpa.project_jpa.service.dto.UpdatePizzaPriceDto;
+import com.jpa.project_jpa.service.exception.EmailApiException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -72,6 +75,17 @@ public class PizzaService {
     public void delete(int idPizza) {
         this.pizzaRepository.deleteById(idPizza);
     }
+
+    @Transactional(noRollbackFor = EmailApiException.class)
+    public void updatePrice(UpdatePizzaPriceDto dto) {
+        this.pizzaRepository.updatePrice(dto);
+        this.sendEmail();
+    }
+
+    private void sendEmail() {
+        throw new EmailApiException();
+    }
+
 
     public boolean exists(int idPizza) {
         return this.pizzaRepository.existsById(idPizza);
