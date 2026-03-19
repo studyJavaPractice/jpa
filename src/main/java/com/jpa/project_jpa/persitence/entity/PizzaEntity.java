@@ -1,8 +1,16 @@
 package com.jpa.project_jpa.persitence.entity;
 
 
+import java.io.Serializable;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.jpa.project_jpa.persitence.audit.AuditPizzaListener;
+import com.jpa.project_jpa.persitence.audit.AuditableEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,10 +21,11 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "pizza")
+@EntityListeners({AuditingEntityListener.class, AuditPizzaListener.class})
 @Getter
 @Setter
 @NoArgsConstructor
-public class PizzaEntity {
+public class PizzaEntity extends AuditableEntity implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pizza", nullable = false)
